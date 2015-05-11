@@ -9,8 +9,12 @@
     {% endfor %}
 
     <h2>Event Details</h2>
-    <ul>
-        <li>Name:     {{ event.name }}</li>
-        <li>Location: {{ event.location }}</li>
-    </ul>
+    {% if not event %}
+        <p>Sorry, event details cannot be found!</p>
+    {% else %}
+        <ul>
+            <li>Name:     {{ event.name }}</li>
+            <li>Location: {{ event.location }}</li>
+        </ul>
+    {% endif %}
 {% endblock %}
