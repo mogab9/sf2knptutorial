@@ -24,8 +24,6 @@ security:
         # secures part of the application
         demo_secured_area:
             pattern:    ^/
-            # it's important to notice that in this case _demo_security_check and _demo_login
-            # are route names and that they are specified in the AcmeDemoBundle
             form_login:
                 check_path: _security_check
                 login_path: /my-login-url
