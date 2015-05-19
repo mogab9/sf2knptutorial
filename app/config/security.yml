@@ -28,6 +28,9 @@ security:
             form_login:
                 check_path: login_check
                 login_path: login_form
+            logout:
+                path:   logout  # a route name
+                target: event # a route for our homepage
 
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods

@@ -35,5 +35,16 @@ class SecurityController extends Controller
     {
         // this controller will not be executed,
         // as the route is handled by the Security system
+        // see security.yml
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logoutAction()
+    {
+        // this controller will not be executed,
+        // as the route is handled by the Security system
+        // see security.yml
     }
 }
