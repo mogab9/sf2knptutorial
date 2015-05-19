@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class SecurityController extends Controller
 {
     /**
-     * @Route("/login", name="login_route")
+     * @Route("/login", name="login_form")
      * @Template("UserBundle:Security:login.html.twig")
      */
     public function loginAction(Request $request)

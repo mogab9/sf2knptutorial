@@ -26,8 +26,8 @@ security:
             anonymous:  ~
             http_basic: ~
             form_login:
-                login_path: /login
-                check_path: /login_check
+                check_path: login_check
+                login_path: login_form
 
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
