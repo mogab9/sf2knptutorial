@@ -35,4 +35,24 @@ class AppKernel extends Kernel
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
     }
+
+    // Vagrant workaround to improve rendering speed
+    public function getCacheDir()
+    {
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return '/dev/shm/appname/cache/' .  $this->environment;
+        }
+
+        return parent::getCacheDir();
+    }
+
+    // Vagrant workaround to improve rendering speed
+    public function getLogDir()
+    {
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return '/dev/shm/appname/logs';
+        }
+
+        return parent::getLogDir();
+    }
 }
