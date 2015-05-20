@@ -105,6 +105,8 @@ class User implements UserInterface
 
     public function getSalt()
     {
+        // required only because we implements UserInterface but not used
+        // since we use bcrypt password encoding which add randomly generated salt
         return null;
     }
 }
