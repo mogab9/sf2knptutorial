@@ -4,6 +4,7 @@ namespace Yoda\EventBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Yoda\EventBundle\Entity\Event;
 use Yoda\EventBundle\Form\EventType;
@@ -41,6 +42,8 @@ class EventController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->_enforceUserSecurity();
+
         $entity = new Event();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -84,6 +87,8 @@ class EventController extends Controller
      */
     public function newAction()
     {
+        $this->_enforceUserSecurity();
+
         $entity = new Event();
         $form   = $this->createCreateForm($entity);
 
@@ -121,6 +126,8 @@ class EventController extends Controller
      */
     public function editAction($id)
     {
+        $this->_enforceUserSecurity();
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('EventBundle:Event')->find($id);
@@ -163,6 +170,8 @@ class EventController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        $this->_enforceUserSecurity();
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('EventBundle:Event')->find($id);
@@ -193,6 +202,8 @@ class EventController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $this->_enforceUserSecurity();
+
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -226,5 +237,20 @@ class EventController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+
+    /**
+     * Check user grants and throw an exception if user has insufficient grants.
+     * @throws AccessDeniedException if user has insufficient grants
+     */
+    private function _enforceUserSecurity()
+    {
+        $securityContext = $this->get('security.context');
+        if (!$securityContext->isGranted('ROLE_USER')) {
+            // Symfony 2.5
+            // throw $this->createAccessDeniedException('Need ROLE_USER');
+            throw new AccessDeniedException('Need ROLE_USER!');
+        }
     }
 }

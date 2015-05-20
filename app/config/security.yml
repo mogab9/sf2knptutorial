@@ -36,5 +36,6 @@ security:
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/cookbook/security/access_control.html
     access_control:
-        - { path: ^/new, roles: ROLE_USER }
-        - { path: ^/create, roles: ROLE_USER }
+# putting security in the controller instead!
+#        - { path: ^/new, roles: ROLE_USER }
+#        - { path: ^/create, roles: ROLE_USER }
