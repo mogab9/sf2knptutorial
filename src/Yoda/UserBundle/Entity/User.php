@@ -3,7 +3,7 @@
 namespace Yoda\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * User
@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="yoda_user")
  * @ORM\Entity(repositoryClass="Yoda\UserBundle\Entity\UserRepository")
  */
-class User implements UserInterface
+class User implements AdvancedUserInterface
 {
     /**
      * @var integer
@@ -36,6 +36,17 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive = true;
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = array();
 
     /**
      * Get id
@@ -93,11 +104,6 @@ class User implements UserInterface
         return $this->password;
     }
 
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
     public function eraseCredentials()
     {
         // Todo: logic goes here later
@@ -108,5 +114,57 @@ class User implements UserInterface
         // required only because we implements UserInterface but not used
         // since we use bcrypt password encoding which add randomly generated salt
         return null;
+    }
+
+    public function getRoles()
+    {
+        $roles   = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+
+        // allows for chaining
+        return $this;
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->getIsActive();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param boolean $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
     }
 }
