@@ -33,7 +33,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         $admin->setEmail('wayne@deathstar.com');
         $admin->setPassword($this->_encodePassword($admin, 'waynepass'));
         $admin->setRoles(array('ROLE_ADMIN'));
-        $admin->setIsActive(false);
+        //$admin->setIsActive(false);
         $manager->persist($admin);
 
         $manager->flush();
