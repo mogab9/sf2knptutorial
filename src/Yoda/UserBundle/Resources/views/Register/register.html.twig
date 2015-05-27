@@ -12,6 +12,21 @@
         <article>
             <h1>Register</h1>
 
+            <form action="{{ path('user_register') }}">
+                {{ form_errors(form) }}
+
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.password) }}
+
+                {# form_rest() displays all fields I've not displayed yet for this form.#}
+                {# This is a good practice since I will see all fields I've forgotten to render. #}
+                {# In addition, it renders any hidden fields automatically. #}
+                {{ form_rest(form) }}
+
+                <input type="submit" class="btn btn-primary pull-right" value="Register!"/>
+            </form>
+
         </article>
     </section>
 {% endblock %}
