@@ -17,7 +17,12 @@
 
                 {{ form_row(form.username) }}
                 {{ form_row(form.email) }}
-                {{ form_row(form.password) }}
+                {{ form_row(form.password.first, {
+                    label: 'Password'
+                }) }}
+                {{ form_row(form.password.second, {
+                    label: 'Repeat Password'
+                }) }}
 
                 {# form_rest() displays all fields I've not displayed yet for this form.#}
                 {# This is a good practice since I will see all fields I've forgotten to render. #}
