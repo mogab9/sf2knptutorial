@@ -55,6 +55,11 @@ class User implements AdvancedUserInterface, Serializable
     private $email;
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -112,7 +117,7 @@ class User implements AdvancedUserInterface, Serializable
 
     public function eraseCredentials()
     {
-        // Todo: logic goes here later
+        $this->setPlainPassword(null);
     }
 
     public function getSalt()
@@ -228,5 +233,23 @@ class User implements AdvancedUserInterface, Serializable
             $this->username,
             $this->password,
         ) = unserialize($serialized);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 }
