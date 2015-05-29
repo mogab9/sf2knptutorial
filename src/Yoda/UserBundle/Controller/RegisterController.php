@@ -5,6 +5,7 @@ namespace Yoda\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Yoda\UserBundle\Entity\User;
@@ -37,6 +38,8 @@ class RegisterController extends Controller
 
             $request->getSession()->getFlashBag()
                 ->add('success', 'Welcome to the Death Star, have a magical day!');
+
+            $this->authenticateUser($user);
             $url = $this->generateUrl('event');
 
             return $this->redirect($url);
@@ -51,5 +54,13 @@ class RegisterController extends Controller
         ;
 
         return $encoder->encodePassword($plainPassword, $user->getSalt());
+    }
+
+    private function authenticateUser(User $user)
+    {
+        $providerKey = 'secured_area'; // your firewall name
+        $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+
+        $this->container->get('security.context')->setToken($token);
     }
 }
