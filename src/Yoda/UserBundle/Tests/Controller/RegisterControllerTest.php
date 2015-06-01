@@ -8,10 +8,20 @@ class RegisterControllerTest extends WebTestCase
 {
     public function testRegister()
     {
-        $client = static::createClient();
+        $client    = static::createClient();
 
-        $crawler = $client->request('GET', '/register');
-        $response = $client->getResponse();
+        $crawler   = $client->request('GET', '/register');
+        $response  = $client->getResponse();
+        
+        // flush User table
+        $container = self::$kernel->getContainer();
+        $em        = $container->get('doctrine');
+        $userRepo  = $em->getRepository('UserBundle:User');
+        $userRepo->createQueryBuilder('u')
+            ->delete()
+            ->getQuery()
+            ->execute()
+        ;
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertContains('Register', $response->getContent());
