@@ -44,7 +44,7 @@ class EventController extends Controller
      */
     public function createAction(Request $request)
     {
-        $this->_enforceUserSecurity();
+        $this->_enforceUserSecurity('ROLE_EVENT_CREATE');
 
         $entity = new Event();
         $form = $this->createCreateForm($entity);
@@ -89,7 +89,7 @@ class EventController extends Controller
      */
     public function newAction()
     {
-        $this->_enforceUserSecurity();
+        $this->_enforceUserSecurity('ROLE_EVENT_CREATE');
 
         $entity = new Event();
         $form   = $this->createCreateForm($entity);
@@ -246,13 +246,13 @@ class EventController extends Controller
      * Check user grants and throw an exception if user has insufficient grants.
      * @throws AccessDeniedException if user has insufficient grants
      */
-    private function _enforceUserSecurity()
+    private function _enforceUserSecurity($role = 'ROLE_USER')
     {
         $securityContext = $this->get('security.context');
-        if (!$securityContext->isGranted('ROLE_USER')) {
+        if (!$securityContext->isGranted($role)) {
             // Symfony 2.5
             // throw $this->createAccessDeniedException('Need ROLE_USER');
-            throw new AccessDeniedException('Need ROLE_USER!');
+            throw new AccessDeniedException('Need '.$role);
         }
     }
 }
